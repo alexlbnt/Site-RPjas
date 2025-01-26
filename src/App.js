@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './componentes/Home/Home';
 import Mapa from './componentes/Mapa/Mapa';
 import Historia from './componentes/Historia/Historia';
+import Biblioteca from './componentes/Biblioteca/Biblioteca';
 import Grupo from './componentes/Grupo/Grupo';
 import Footer from './componentes/Footer/Footer';
 
@@ -26,6 +27,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/mapa" element={<Mapa />} />
                     <Route path="/historia" element={<Historia />} />
+                    <Route path="/biblioteca" element={<Biblioteca />} />
                     <Route path="/grupo" element={<Grupo />} />
                 </Routes>
                 <Footer />

@@ -6,8 +6,8 @@ import MapaBackground from '../../imagens/Mapa-Background.png';
 const MapaContainer = styled.div`
     color: white;
     text-align: center;
-    padding: 20px;
-    width: 100vw;
+    padding: 13px;
+    width: 98vw;
     height: 120vh;
     background-image: url(${MapaBackground});
     background-size: cover;
@@ -66,10 +66,10 @@ const Mapa = () => {
     const [informacaoRegiao, setInformacaoRegiao] = useState(null);
 
     const regioes = [
-        { id: 1, nome: 'Norte', descricao: 'Região cheia de picos nevados e vales profundos.', top: '30%', left: '40%' },
-        { id: 2, nome: 'Sul', descricao: 'Uma densa floresta com fauna diversificada.', top: '50%', left: '20%' },
-        { id: 3, nome: 'Leste', descricao: 'Território árido com vastas dunas de areia.', top: '70%', left: '50%' },
-        { id: 4, nome: 'Oeste', descricao: 'Campos verdes, bosques e plantações fartas.', top: '60%', left: '80%' },
+        { id: 1, nome: 'Norte', descricao: 'Região cheia de picos nevados e vales profundos.', top: '10%', left: '80%' },
+        { id: 2, nome: 'Sul', descricao: 'Uma densa floresta com fauna diversificada.', top: '80%', left: '20%' },
+        { id: 3, nome: 'Leste', descricao: 'Território árido com vastas dunas de areia.', top: '80%', left: '80%' },
+        { id: 4, nome: 'Oeste', descricao: 'Campos verdes, bosques e plantações fartas.', top: '10%', left: '20%' },
     ];
 
     const exibirInformacao = (regiao) => {
@@ -78,7 +78,6 @@ const Mapa = () => {
 
     return (
         <MapaContainer aria-label="Mapa interativo do mundo">
-            <h1>Mapa do Mundo</h1>
             <p>Visualize as terras por onde sua jornada o levará.</p>
 
             {regioes.map((regiao) => (
@@ -103,3 +102,4 @@ const Mapa = () => {
 };
 
 export default Mapa;
+

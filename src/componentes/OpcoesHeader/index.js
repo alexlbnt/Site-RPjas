@@ -32,6 +32,7 @@ const textoOpcoes = [
     { nome: 'Home', caminho: '/' },
     { nome: 'Mapa', caminho: '/mapa' },
     { nome: 'História', caminho: '/historia' },
+    { nome: 'Biblioteca', caminho: '/biblioteca' },
     { nome: 'Grupo', caminho: '/grupo' }
 ];
 
