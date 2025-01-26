@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const HistoriaContainer = styled.div`
     color: white;
     text-align: center;
-    padding: 20px;
+    padding: 205px;
 `;
 
 const Historia = () => {

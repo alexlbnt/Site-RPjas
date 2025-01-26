@@ -1,4 +1,3 @@
-import './App.css';
 import Header from './componentes/Header';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -6,6 +5,7 @@ import Home from './componentes/Home/Home';
 import Mapa from './componentes/Mapa/Mapa';
 import Historia from './componentes/Historia/Historia';
 import Grupo from './componentes/Grupo/Grupo';
+import Footer from './componentes/Footer/Footer';
 
 const AppContainer = styled.div`
     width: 100vw;
@@ -28,6 +28,7 @@ function App() {
                     <Route path="/historia" element={<Historia />} />
                     <Route path="/grupo" element={<Grupo />} />
                 </Routes>
+                <Footer />
             </AppContainer>
         </Router>
     );

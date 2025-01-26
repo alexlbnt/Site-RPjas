@@ -1,191 +1,176 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const GrupoContainer = styled.div`
     color: white;
     text-align: center;
     padding: 20px;
+    background-color: rgba(0, 0, 0, 0.57);
+    min-height: 100vh;
 `;
 
-const CarouselContainer = styled.div`
-    display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    gap: 20px;
-    padding: 20px 0;
+const PresentationContainer = styled.div`
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    padding: 50px 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+`;
 
-    &::-webkit-scrollbar {
-        display: none; /* Oculta a barra de rolagem */
+const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px 30px;
+    padding: 80px;
+`;
+
+const CardContainer = styled.div`
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+
+    &:hover {
+        transform: scale(1.05);
     }
 `;
 
 const Card = styled.div`
-    flex: 0 0 auto;
-    perspective: 1000px;
-    width: 200px;
-    height: 300px;
-    scroll-snap-align: center;
-
-    &:hover .inner {
-        transform: rotateY(180deg);
-    }
-`;
-
-const Inner = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    transition: transform 0.8s;
-    transform-style: preserve-3d;
-`;
-
-const Front = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
     background: #333;
     color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    border-radius: 10px;
+    cursor: pointer;
+    z-index: 1;
 `;
 
-const Back = styled.div`
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    background: #555;
+const InfoCard = styled.div`
+    position: relative;
+    background: #222;
     color: white;
-    transform: rotateY(180deg);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+
+    /* Mostra a carta com animação */
+    ${CardContainer}:hover & {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border-radius: 10px;
+    z-index: 0;
 `;
 
 const Image = styled.img`
-    width: 80%;
+    width: 100%;
+    height: auto;
     border-radius: 10px;
 `;
 
-const Grupo = () => {
-    const players = [
-        {
-            name: 'Sed',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Um habilidoso guerreiro e líder nato.',
-        },
-        {
-            name: 'Yaris',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },
-        {
-            name: 'Garimf',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Zero',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Verena',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Claive',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Kambami',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Vaelith',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },        {
-            name: 'Edward',
-            image: 'https://via.placeholder.com/300x400',
-            description: 'Uma poderosa maga com um passado misterioso.',
-        },
-        
-        
-    ];
+const PlayerName = styled.h2`
+    margin: 10px 0 5px;
+    font-size: 1.5rem;
+`;
 
-    const carouselRef = useRef(null);
-    const [scrollDirection, setScrollDirection] = useState(null);
-    const scrollSpeed = 2;
+const Description = styled.p`
+    font-size: 1rem;
+    color: #ddd;
+    text-align: center;
+`;
+
+const Grupo = () => {
+    const [players, setPlayers] = useState([]);
 
     useEffect(() => {
-        let scrollInterval;
-
-        if (scrollDirection && carouselRef.current) {
-            scrollInterval = setInterval(() => {
-                const carousel = carouselRef.current;
-                if (scrollDirection === 'left') {
-                    carousel.scrollLeft -= scrollSpeed;
-                } else if (scrollDirection === 'right') {
-                    carousel.scrollLeft += scrollSpeed;
-                }
-            }, 16); // Aproximadamente 60 FPS
-        }
-
-        return () => clearInterval(scrollInterval);
-    }, [scrollDirection]);
-
-    const handleMouseMove = (event) => {
-        const { clientX } = event;
-        const carousel = carouselRef.current;
-
-        if (carousel) {
-            const { left, width } = carousel.getBoundingClientRect();
-            const midpoint = left + width / 2;
-
-            if (clientX < midpoint) {
-                setScrollDirection('left');
-            } else {
-                setScrollDirection('right');
-            }
-        }
-    };
-
-    const handleMouseLeave = () => {
-        setScrollDirection(null); // Para o scroll automático ao sair
-    };
+        // Simulando o carregamento dos dados de uma API
+        const fetchedPlayers = [
+            {
+                name: 'Sed',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Um Paladino do balacobaco.',
+            },
+            {
+                name: 'Yaris',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Uma Artificer fenomenal.',
+            },
+            {
+                name: 'Garimf',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'DEUS NA TERRA.',
+            },
+            {
+                name: 'Zero',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Uma coisa de outro mundo.',
+            },
+            {
+                name: 'Verena',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Uma Bruxa da pesada.',
+            },
+            {
+                name: 'Claive',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Um Pistoleiro com olho de aguia.',
+            },
+            {
+                name: 'Kambami',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Um Clerigo surreal.',
+            },
+            {
+                name: 'Vaelith',
+                image: 'https://via.placeholder.com/300x400',
+                description: 'Uma Druida animal.',
+            },
+        ];
+        setPlayers(fetchedPlayers);
+    }, []);
 
     return (
         <GrupoContainer>
-            <h1>Página sobre os Players</h1>
-            <p>Conheça a rapazeada.</p>
-            <CarouselContainer
-                ref={carouselRef}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-            >
+            <PresentationContainer>
+                <h1>Bem-vindo à Página dos Players</h1>
+                <p>Descubra mais sobre cada personagem neste grupo incrível. Passe o mouse sobre os cards para saber mais!</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+                <p>Testing</p>
+            </PresentationContainer>
+            <GridContainer>
                 {players.map((player, index) => (
-                    <Card key={index}>
-                        <Inner className="inner">
-                            <Front>
-                                <Image src={player.image} alt={player.name} />
-                                <h2>{player.name}</h2>
-                            </Front>
-                            <Back>
-                                <h2>{player.name}</h2>
-                                <p>{player.description}</p>
-                            </Back>
-                        </Inner>
-                    </Card>
+                    <CardContainer key={index}>
+                        <Card>
+                            <Image src={player.image} alt={`${player.name} image`} />
+                            <PlayerName>{player.name}</PlayerName>
+                        </Card>
+                        <InfoCard>
+                            <Description>{player.description}</Description>
+                        </InfoCard>
+                    </CardContainer>
                 ))}
-            </CarouselContainer>
+            </GridContainer>
         </GrupoContainer>
     );
 };
 
 export default Grupo;
+
