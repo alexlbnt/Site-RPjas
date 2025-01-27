@@ -7,7 +7,7 @@ const MapaContainer = styled.div`
     color: white;
     text-align: center;
     padding: 13px;
-    width: 98vw;
+    width: 100vw;
     height: 120vh;
     background-image: url(${MapaBackground});
     background-size: cover;

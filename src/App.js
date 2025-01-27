@@ -1,5 +1,5 @@
 import Header from './componentes/Header';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './componentes/Home/Home';
 import Mapa from './componentes/Mapa/Mapa';
@@ -15,20 +15,39 @@ import Bestiario from './componentes/Biblioteca/Bestiario';
 import ConstruirMaquinas from './componentes/Biblioteca/ConstruirMaquinas';
 import TeoriaDasFrutas from './componentes/Biblioteca/TeoriaDasFrutas';
 
-const AppContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background-image: linear-gradient(90deg, rgb(34, 1, 56) 35%, rgb(95, 0, 119));
+const GlobalStyle = createGlobalStyle`
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden; /* Previne rolagem horizontal */
+    }
 
     li {
         list-style: none;
     }
 `;
 
+const AppContainer = styled.div`
+    width: 100%; /* Ajusta largura para evitar problemas com barra de rolagem */
+    height: 100%;
+    background-image: linear-gradient(90deg, rgb(34, 1, 56) 35%, rgb(95, 0, 119));
+
+    /* Evita elementos internos ultrapassarem os limites */
+    max-width: 100%;
+    overflow: hidden;
+`;
+
 function App() {
     return (
         <Router>
             <AppContainer>
+                <GlobalStyle />
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />

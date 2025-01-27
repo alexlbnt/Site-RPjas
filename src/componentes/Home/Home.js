@@ -6,6 +6,7 @@ const HomeContainer = styled.div`
     color: white;
     text-align: center;
     padding: 20px;
+    width: 100vw;
     background-image: url(${ArvoreTraad});
     background-size: cover;
     background-position: center;
@@ -14,7 +15,7 @@ const HomeContainer = styled.div`
 
     @media (max-width: full) {
         background-size: contain;
-        min-height: auto;
+        height: 100vh;
     }
 
     @media (max-width: full) {
