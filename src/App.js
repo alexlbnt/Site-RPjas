@@ -8,6 +8,13 @@ import Biblioteca from './componentes/Biblioteca/Biblioteca';
 import Grupo from './componentes/Grupo/Grupo';
 import Footer from './componentes/Footer/Footer';
 
+// Importações das páginas individuais dos livros
+import Grimorio from './componentes/Biblioteca/Grimorio';
+import Prosas from './componentes/Biblioteca/Prosas';
+import Bestiario from './componentes/Biblioteca/Bestiario';
+import ConstruirMaquinas from './componentes/Biblioteca/ConstruirMaquinas';
+import TeoriaDasFrutas from './componentes/Biblioteca/TeoriaDasFrutas';
+
 const AppContainer = styled.div`
     width: 100vw;
     height: 100vh;
@@ -29,6 +36,13 @@ function App() {
                     <Route path="/historia" element={<Historia />} />
                     <Route path="/biblioteca" element={<Biblioteca />} />
                     <Route path="/grupo" element={<Grupo />} />
+
+                    {/* Rotas individuais dos livros */}
+                    <Route path="/biblioteca/grimorio" element={<Grimorio />} />
+                    <Route path="/biblioteca/prosas" element={<Prosas />} />
+                    <Route path="/biblioteca/bestiario" element={<Bestiario />} />
+                    <Route path="/biblioteca/construir-maquinas" element={<ConstruirMaquinas />} />
+                    <Route path="/biblioteca/teoria-das-frutas" element={<TeoriaDasFrutas />} />
                 </Routes>
                 <Footer />
             </AppContainer>
