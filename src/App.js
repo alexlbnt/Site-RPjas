@@ -37,7 +37,6 @@ const AppContainer = styled.div`
     height: 100%;
     background-image: linear-gradient(90deg, rgb(34, 1, 56) 35%, rgb(95, 0, 119));
 
-    /* Evita elementos internos ultrapassarem os limites */
     max-width: 100%;
     overflow: hidden;
 `;
