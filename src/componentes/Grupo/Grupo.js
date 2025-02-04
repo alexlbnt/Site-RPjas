@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
 const GrupoContainer = styled.div`
@@ -17,18 +17,33 @@ const PresentationContainer = styled.div`
     border-radius: 10px;
 `;
 
-const GridContainer = styled.div`
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 40px 30px;
-    padding: 80px;
+const SliderWrapper = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
+`;
+
+const SliderContainer = styled.div`
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 const CardContainer = styled.div`
+    display: inline-block;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease-in-out;
+    min-width: 250px;
 
     &:hover {
         transform: scale(1.05);
@@ -60,7 +75,6 @@ const InfoCard = styled.div`
     transform: translateY(20px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 
-    /* Mostra a carta com animação */
     ${CardContainer}:hover & {
         opacity: 1;
         transform: translateY(0);
@@ -91,86 +105,79 @@ const Description = styled.p`
     text-align: center;
 `;
 
+const NavArea = styled.div`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 10%;
+    cursor: pointer;
+    z-index: 2;
+
+    &:first-of-type {
+        left: 0;
+    }
+
+    &:last-of-type {
+        right: 0;
+    }
+`;
+
 const Grupo = () => {
     const [players, setPlayers] = useState([]);
+    const sliderRef = useRef(null);
+    let scrollInterval = useRef(null);
 
     useEffect(() => {
-        // Simulando o carregamento dos dados de uma API
         const fetchedPlayers = [
-            {
-                name: 'Sed',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Um Paladino do balacobaco.',
-            },
-            {
-                name: 'Yaris',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Uma Artificer fenomenal.',
-            },
-            {
-                name: 'Garimf',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'DEUS NA TERRA.',
-            },
-            {
-                name: 'Zero',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Uma coisa de outro mundo.',
-            },
-            {
-                name: 'Verena',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Uma Bruxa da pesada.',
-            },
-            {
-                name: 'Claive',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Um Pistoleiro com olho de aguia.',
-            },
-            {
-                name: 'Kambami',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Um Clerigo surreal.',
-            },
-            {
-                name: 'Vaelith',
-                image: 'https://via.placeholder.com/300x400',
-                description: 'Uma Druida animal.',
-            },
+            { name: 'Sed', image: 'https://via.placeholder.com/300x400', description: 'Um Paladino do balacobaco.' },
+            { name: 'Yaris', image: 'https://via.placeholder.com/300x400', description: 'Uma Artificer fenomenal.' },
+            { name: 'Garimf', image: 'https://via.placeholder.com/300x400', description: 'DEUS NA TERRA.' },
+            { name: 'Zero', image: 'https://via.placeholder.com/300x400', description: 'Uma coisa de outro mundo.' },
+            { name: 'Verena', image: 'https://via.placeholder.com/300x400', description: 'Uma Bruxa da pesada.' },
+            { name: 'Claive', image: 'https://via.placeholder.com/300x400', description: 'Um Pistoleiro com olho de aguia.' },
+            { name: 'Kambami', image: 'https://via.placeholder.com/300x400', description: 'Um Clerigo surreal.' },
+            { name: 'Vaelith', image: 'https://via.placeholder.com/300x400', description: 'Uma Druida animal.' },
         ];
         setPlayers(fetchedPlayers);
     }, []);
+
+    const startScrolling = (direction) => {
+        if (sliderRef.current) {
+            scrollInterval.current = setInterval(() => {
+                sliderRef.current.scrollBy({ left: direction === 'left' ? -50 : 50, behavior: 'smooth' });
+            }, 30);
+        }
+    };
+
+    const stopScrolling = () => {
+        clearInterval(scrollInterval.current);
+    };
 
     return (
         <GrupoContainer>
             <PresentationContainer>
                 <h1>Bem-vindo à Página dos Players</h1>
                 <p>Descubra mais sobre cada personagem neste grupo incrível. Passe o mouse sobre os cards para saber mais!</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
-                <p>Testing</p>
             </PresentationContainer>
-            <GridContainer>
-                {players.map((player, index) => (
-                    <CardContainer key={index}>
-                        <Card>
-                            <Image src={player.image} alt={`${player.name} image`} />
-                            <PlayerName>{player.name}</PlayerName>
-                        </Card>
-                        <InfoCard>
-                            <Description>{player.description}</Description>
-                        </InfoCard>
-                    </CardContainer>
-                ))}
-            </GridContainer>
+            <SliderWrapper>
+                <NavArea onMouseEnter={() => startScrolling('left')} onMouseLeave={stopScrolling} />
+                <SliderContainer ref={sliderRef}>
+                    {players.map((player, index) => (
+                        <CardContainer key={index}>
+                            <Card>
+                                <Image src={player.image} alt={`${player.name} image`} />
+                                <PlayerName>{player.name}</PlayerName>
+                            </Card>
+                            <InfoCard>
+                                <Description>{player.description}</Description>
+                            </InfoCard>
+                        </CardContainer>
+                    ))}
+                </SliderContainer>
+                <NavArea onMouseEnter={() => startScrolling('right')} onMouseLeave={stopScrolling} />
+            </SliderWrapper>
         </GrupoContainer>
     );
 };
 
 export default Grupo;
-

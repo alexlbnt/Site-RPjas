@@ -8,7 +8,6 @@ import Biblioteca from './componentes/Biblioteca/Biblioteca';
 import Grupo from './componentes/Grupo/Grupo';
 import Footer from './componentes/Footer/Footer';
 
-// Importações das páginas individuais dos livros
 import Grimorio from './componentes/Biblioteca/Grimorio';
 import Prosas from './componentes/Biblioteca/Prosas';
 import Bestiario from './componentes/Biblioteca/Bestiario';
@@ -25,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
     body {
         width: 100%;
         height: 100%;
-        overflow-x: hidden; /* Previne rolagem horizontal */
+        overflow-x: hidden; 
     }
 
     li {
@@ -34,7 +33,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const AppContainer = styled.div`
-    width: 100%; /* Ajusta largura para evitar problemas com barra de rolagem */
+    width: 100%; 
     height: 100%;
     background-image: linear-gradient(90deg, rgb(34, 1, 56) 35%, rgb(95, 0, 119));
 
@@ -56,7 +55,6 @@ function App() {
                     <Route path="/biblioteca" element={<Biblioteca />} />
                     <Route path="/grupo" element={<Grupo />} />
 
-                    {/* Rotas individuais dos livros */}
                     <Route path="/biblioteca/grimorio" element={<Grimorio />} />
                     <Route path="/biblioteca/prosas" element={<Prosas />} />
                     <Route path="/biblioteca/bestiario" element={<Bestiario />} />
